@@ -1,0 +1,2447 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NK - AC Technical Services | Invoice &amp; Quotation</title>
+  <!-- Tailwind CSS for modern responsive UI -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap"
+    rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f1f5f9;
+    }
+
+    /* Custom Print Styles so only the A4 sheet prints cleanly on EXACTLY 1 page */
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 8mm !important;
+      }
+
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      body {
+        background-color: #ffffff !important;
+        color: #0f172a !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
+      .no-print {
+        display: none !important;
+      }
+
+      .print-container {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-height: 0 !important;
+        height: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+        border: none !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+
+      /* Compact vertical spacing in print mode to guarantee single-page fit */
+      .print-header {
+        padding-bottom: 8px !important;
+      }
+
+      .print-ribbon {
+        margin-top: 6px !important;
+        margin-bottom: 6px !important;
+        padding-top: 4px !important;
+        padding-bottom: 4px !important;
+      }
+
+      .print-badge {
+        margin-top: 6px !important;
+        margin-bottom: 6px !important;
+      }
+
+      .print-customer-box {
+        margin-bottom: 8px !important;
+        padding: 8px 12px !important;
+      }
+
+      .print-bottom-section {
+        margin-top: 8px !important;
+        padding-top: 8px !important;
+      }
+
+      .print-sig-row {
+        margin-top: 14px !important;
+        padding-top: 4px !important;
+      }
+
+      .print-footer {
+        margin-top: 8px !important;
+        padding-top: 6px !important;
+      }
+
+      /* High contrast text and borders for crisp paper print */
+      .text-slate-400,
+      .text-slate-500 {
+        color: #334155 !important;
+      }
+
+      .text-slate-600 {
+        color: #1e293b !important;
+      }
+
+      .text-slate-700 {
+        color: #0f172a !important;
+      }
+
+      .border-slate-200,
+      .border-slate-300 {
+        border-color: #64748b !important;
+      }
+
+      .border-slate-400 {
+        border-color: #0f172a !important;
+      }
+
+      .handwrite-line {
+        border-bottom: 1.5px dotted #0f172a !important;
+        height: 22px !important;
+      }
+    }
+
+    /* Dotted lines for blank billbook hand-written mode */
+    .handwrite-line {
+      border-bottom: 1.5px dotted #334155;
+      height: 24px;
+      display: inline-block;
+      width: 100%;
+    }
+  </style>
+  <style>
+    *,
+    ::before,
+    ::after {
+      --tw-border-spacing-x: 0;
+      --tw-border-spacing-y: 0;
+      --tw-translate-x: 0;
+      --tw-translate-y: 0;
+      --tw-rotate: 0;
+      --tw-skew-x: 0;
+      --tw-skew-y: 0;
+      --tw-scale-x: 1;
+      --tw-scale-y: 1;
+      --tw-pan-x: ;
+      --tw-pan-y: ;
+      --tw-pinch-zoom: ;
+      --tw-scroll-snap-strictness: proximity;
+      --tw-gradient-from-position: ;
+      --tw-gradient-via-position: ;
+      --tw-gradient-to-position: ;
+      --tw-ordinal: ;
+      --tw-slashed-zero: ;
+      --tw-numeric-figure: ;
+      --tw-numeric-spacing: ;
+      --tw-numeric-fraction: ;
+      --tw-ring-inset: ;
+      --tw-ring-offset-width: 0px;
+      --tw-ring-offset-color: #fff;
+      --tw-ring-color: rgb(59 130 246 / 0.5);
+      --tw-ring-offset-shadow: 0 0 #0000;
+      --tw-ring-shadow: 0 0 #0000;
+      --tw-shadow: 0 0 #0000;
+      --tw-shadow-colored: 0 0 #0000;
+      --tw-blur: ;
+      --tw-brightness: ;
+      --tw-contrast: ;
+      --tw-grayscale: ;
+      --tw-hue-rotate: ;
+      --tw-invert: ;
+      --tw-saturate: ;
+      --tw-sepia: ;
+      --tw-drop-shadow: ;
+      --tw-backdrop-blur: ;
+      --tw-backdrop-brightness: ;
+      --tw-backdrop-contrast: ;
+      --tw-backdrop-grayscale: ;
+      --tw-backdrop-hue-rotate: ;
+      --tw-backdrop-invert: ;
+      --tw-backdrop-opacity: ;
+      --tw-backdrop-saturate: ;
+      --tw-backdrop-sepia: ;
+      --tw-contain-size: ;
+      --tw-contain-layout: ;
+      --tw-contain-paint: ;
+      --tw-contain-style:
+    }
+
+    ::backdrop {
+      --tw-border-spacing-x: 0;
+      --tw-border-spacing-y: 0;
+      --tw-translate-x: 0;
+      --tw-translate-y: 0;
+      --tw-rotate: 0;
+      --tw-skew-x: 0;
+      --tw-skew-y: 0;
+      --tw-scale-x: 1;
+      --tw-scale-y: 1;
+      --tw-pan-x: ;
+      --tw-pan-y: ;
+      --tw-pinch-zoom: ;
+      --tw-scroll-snap-strictness: proximity;
+      --tw-gradient-from-position: ;
+      --tw-gradient-via-position: ;
+      --tw-gradient-to-position: ;
+      --tw-ordinal: ;
+      --tw-slashed-zero: ;
+      --tw-numeric-figure: ;
+      --tw-numeric-spacing: ;
+      --tw-numeric-fraction: ;
+      --tw-ring-inset: ;
+      --tw-ring-offset-width: 0px;
+      --tw-ring-offset-color: #fff;
+      --tw-ring-color: rgb(59 130 246 / 0.5);
+      --tw-ring-offset-shadow: 0 0 #0000;
+      --tw-ring-shadow: 0 0 #0000;
+      --tw-shadow: 0 0 #0000;
+      --tw-shadow-colored: 0 0 #0000;
+      --tw-blur: ;
+      --tw-brightness: ;
+      --tw-contrast: ;
+      --tw-grayscale: ;
+      --tw-hue-rotate: ;
+      --tw-invert: ;
+      --tw-saturate: ;
+      --tw-sepia: ;
+      --tw-drop-shadow: ;
+      --tw-backdrop-blur: ;
+      --tw-backdrop-brightness: ;
+      --tw-backdrop-contrast: ;
+      --tw-backdrop-grayscale: ;
+      --tw-backdrop-hue-rotate: ;
+      --tw-backdrop-invert: ;
+      --tw-backdrop-opacity: ;
+      --tw-backdrop-saturate: ;
+      --tw-backdrop-sepia: ;
+      --tw-contain-size: ;
+      --tw-contain-layout: ;
+      --tw-contain-paint: ;
+      --tw-contain-style:
+    }
+
+    /* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */
+    *,
+    ::after,
+    ::before {
+      box-sizing: border-box;
+      border-width: 0;
+      border-style: solid;
+      border-color: #e5e7eb
+    }
+
+    ::after,
+    ::before {
+      --tw-content: ''
+    }
+
+    :host,
+    html {
+      line-height: 1.5;
+      -webkit-text-size-adjust: 100%;
+      -moz-tab-size: 4;
+      tab-size: 4;
+      font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+      font-feature-settings: normal;
+      font-variation-settings: normal;
+      -webkit-tap-highlight-color: transparent
+    }
+
+    body {
+      margin: 0;
+      line-height: inherit
+    }
+
+    hr {
+      height: 0;
+      color: inherit;
+      border-top-width: 1px
+    }
+
+    abbr:where([title]) {
+      -webkit-text-decoration: underline dotted;
+      text-decoration: underline dotted
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-size: inherit;
+      font-weight: inherit
+    }
+
+    a {
+      color: inherit;
+      text-decoration: inherit
+    }
+
+    b,
+    strong {
+      font-weight: bolder
+    }
+
+    code,
+    kbd,
+    pre,
+    samp {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-feature-settings: normal;
+      font-variation-settings: normal;
+      font-size: 1em
+    }
+
+    small {
+      font-size: 80%
+    }
+
+    sub,
+    sup {
+      font-size: 75%;
+      line-height: 0;
+      position: relative;
+      vertical-align: baseline
+    }
+
+    sub {
+      bottom: -.25em
+    }
+
+    sup {
+      top: -.5em
+    }
+
+    table {
+      text-indent: 0;
+      border-color: inherit;
+      border-collapse: collapse
+    }
+
+    button,
+    input,
+    optgroup,
+    select,
+    textarea {
+      font-family: inherit;
+      font-feature-settings: inherit;
+      font-variation-settings: inherit;
+      font-size: 100%;
+      font-weight: inherit;
+      line-height: inherit;
+      letter-spacing: inherit;
+      color: inherit;
+      margin: 0;
+      padding: 0
+    }
+
+    button,
+    select {
+      text-transform: none
+    }
+
+    button,
+    input:where([type=button]),
+    input:where([type=reset]),
+    input:where([type=submit]) {
+      -webkit-appearance: button;
+      background-color: transparent;
+      background-image: none
+    }
+
+    :-moz-focusring {
+      outline: auto
+    }
+
+    :-moz-ui-invalid {
+      box-shadow: none
+    }
+
+    progress {
+      vertical-align: baseline
+    }
+
+    ::-webkit-inner-spin-button,
+    ::-webkit-outer-spin-button {
+      height: auto
+    }
+
+    [type=search] {
+      -webkit-appearance: textfield;
+      outline-offset: -2px
+    }
+
+    ::-webkit-search-decoration {
+      -webkit-appearance: none
+    }
+
+    ::-webkit-file-upload-button {
+      -webkit-appearance: button;
+      font: inherit
+    }
+
+    summary {
+      display: list-item
+    }
+
+    blockquote,
+    dd,
+    dl,
+    figure,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    hr,
+    p,
+    pre {
+      margin: 0
+    }
+
+    fieldset {
+      margin: 0;
+      padding: 0
+    }
+
+    legend {
+      padding: 0
+    }
+
+    menu,
+    ol,
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0
+    }
+
+    dialog {
+      padding: 0
+    }
+
+    textarea {
+      resize: vertical
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      opacity: 1;
+      color: #9ca3af
+    }
+
+    [role=button],
+    button {
+      cursor: pointer
+    }
+
+    :disabled {
+      cursor: default
+    }
+
+    audio,
+    canvas,
+    embed,
+    iframe,
+    img,
+    object,
+    svg,
+    video {
+      display: block;
+      vertical-align: middle
+    }
+
+    img,
+    video {
+      max-width: 100%;
+      height: auto
+    }
+
+    [hidden]:where(:not([hidden=until-found])) {
+      display: none
+    }
+
+    .sticky {
+      position: sticky
+    }
+
+    .top-0 {
+      top: 0px
+    }
+
+    .z-50 {
+      z-index: 50
+    }
+
+    .col-span-2 {
+      grid-column: span 2 / span 2
+    }
+
+    .col-span-1 {
+      grid-column: span 1 / span 1
+    }
+
+    .col-span-3 {
+      grid-column: span 3 / span 3
+    }
+
+    .col-span-6 {
+      grid-column: span 6 / span 6
+    }
+
+    .col-span-4 {
+      grid-column: span 4 / span 4
+    }
+
+    .col-span-5 {
+      grid-column: span 5 / span 5
+    }
+
+    .col-span-7 {
+      grid-column: span 7 / span 7
+    }
+
+    .col-span-8 {
+      grid-column: span 8 / span 8
+    }
+
+    .mx-auto {
+      margin-left: auto;
+      margin-right: auto
+    }
+
+    .my-4 {
+      margin-top: 1rem;
+      margin-bottom: 1rem
+    }
+
+    .my-5 {
+      margin-top: 1.25rem;
+      margin-bottom: 1.25rem
+    }
+
+    .mb-1 {
+      margin-bottom: 0.25rem
+    }
+
+    .mb-6 {
+      margin-bottom: 1.5rem
+    }
+
+    .mt-0\.5 {
+      margin-top: 0.125rem
+    }
+
+    .mt-1 {
+      margin-top: 0.25rem
+    }
+
+    .mt-1\.5 {
+      margin-top: 0.375rem
+    }
+
+    .mt-12 {
+      margin-top: 3rem
+    }
+
+    .mt-6 {
+      margin-top: 1.5rem
+    }
+
+    .mt-2 {
+      margin-top: 0.5rem
+    }
+
+    .block {
+      display: block
+    }
+
+    .inline-block {
+      display: inline-block
+    }
+
+    .flex {
+      display: flex
+    }
+
+    .grid {
+      display: grid
+    }
+
+    .hidden {
+      display: none
+    }
+
+    .h-10 {
+      height: 2.5rem
+    }
+
+    .h-16 {
+      height: 4rem
+    }
+
+    .h-4 {
+      height: 1rem
+    }
+
+    .h-5 {
+      height: 1.25rem
+    }
+
+    .h-6 {
+      height: 1.5rem
+    }
+
+    .h-8 {
+      height: 2rem
+    }
+
+    .h-9 {
+      height: 2.25rem
+    }
+
+    .max-h-60 {
+      max-height: 15rem
+    }
+
+    .min-h-\[285mm\] {
+      min-height: 285mm
+    }
+
+    .w-10 {
+      width: 2.5rem
+    }
+
+    .w-12 {
+      width: 3rem
+    }
+
+    .w-16 {
+      width: 4rem
+    }
+
+    .w-20 {
+      width: 5rem
+    }
+
+    .w-28 {
+      width: 7rem
+    }
+
+    .w-32 {
+      width: 8rem
+    }
+
+    .w-4 {
+      width: 1rem
+    }
+
+    .w-5 {
+      width: 1.25rem
+    }
+
+    .w-6 {
+      width: 1.5rem
+    }
+
+    .w-full {
+      width: 100%
+    }
+
+    .w-24 {
+      width: 6rem
+    }
+
+    .max-w-7xl {
+      max-width: 80rem
+    }
+
+    .max-w-\[210mm\] {
+      max-width: 210mm
+    }
+
+    .shrink-0 {
+      flex-shrink: 0
+    }
+
+    .border-collapse {
+      border-collapse: collapse
+    }
+
+    .list-inside {
+      list-style-position: inside
+    }
+
+    .list-disc {
+      list-style-type: disc
+    }
+
+    .grid-cols-1 {
+      grid-template-columns: repeat(1, minmax(0, 1fr))
+    }
+
+    .grid-cols-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr))
+    }
+
+    .grid-cols-12 {
+      grid-template-columns: repeat(12, minmax(0, 1fr))
+    }
+
+    .flex-col {
+      flex-direction: column
+    }
+
+    .flex-wrap {
+      flex-wrap: wrap
+    }
+
+    .items-start {
+      align-items: flex-start
+    }
+
+    .items-end {
+      align-items: flex-end
+    }
+
+    .items-center {
+      align-items: center
+    }
+
+    .items-baseline {
+      align-items: baseline
+    }
+
+    .justify-end {
+      justify-content: flex-end
+    }
+
+    .justify-center {
+      justify-content: center
+    }
+
+    .justify-between {
+      justify-content: space-between
+    }
+
+    .gap-1\.5 {
+      gap: 0.375rem
+    }
+
+    .gap-2 {
+      gap: 0.5rem
+    }
+
+    .gap-3 {
+      gap: 0.75rem
+    }
+
+    .gap-3\.5 {
+      gap: 0.875rem
+    }
+
+    .gap-4 {
+      gap: 1rem
+    }
+
+    .gap-6 {
+      gap: 1.5rem
+    }
+
+    .gap-8 {
+      gap: 2rem
+    }
+
+    .gap-x-4 {
+      column-gap: 1rem
+    }
+
+    .gap-y-3 {
+      row-gap: 0.75rem
+    }
+
+    .space-y-0\.5> :not([hidden])~ :not([hidden]) {
+      --tw-space-y-reverse: 0;
+      margin-top: calc(0.125rem * calc(1 - var(--tw-space-y-reverse)));
+      margin-bottom: calc(0.125rem * var(--tw-space-y-reverse))
+    }
+
+    .space-y-1> :not([hidden])~ :not([hidden]) {
+      --tw-space-y-reverse: 0;
+      margin-top: calc(0.25rem * calc(1 - var(--tw-space-y-reverse)));
+      margin-bottom: calc(0.25rem * var(--tw-space-y-reverse))
+    }
+
+    .space-y-2> :not([hidden])~ :not([hidden]) {
+      --tw-space-y-reverse: 0;
+      margin-top: calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));
+      margin-bottom: calc(0.5rem * var(--tw-space-y-reverse))
+    }
+
+    .space-y-3> :not([hidden])~ :not([hidden]) {
+      --tw-space-y-reverse: 0;
+      margin-top: calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));
+      margin-bottom: calc(0.75rem * var(--tw-space-y-reverse))
+    }
+
+    .space-y-5> :not([hidden])~ :not([hidden]) {
+      --tw-space-y-reverse: 0;
+      margin-top: calc(1.25rem * calc(1 - var(--tw-space-y-reverse)));
+      margin-bottom: calc(1.25rem * var(--tw-space-y-reverse))
+    }
+
+    .divide-y> :not([hidden])~ :not([hidden]) {
+      --tw-divide-y-reverse: 0;
+      border-top-width: calc(1px * calc(1 - var(--tw-divide-y-reverse)));
+      border-bottom-width: calc(1px * var(--tw-divide-y-reverse))
+    }
+
+    .divide-slate-200> :not([hidden])~ :not([hidden]) {
+      --tw-divide-opacity: 1;
+      border-color: rgb(226 232 240 / var(--tw-divide-opacity, 1))
+    }
+
+    .overflow-hidden {
+      overflow: hidden
+    }
+
+    .overflow-y-auto {
+      overflow-y: auto
+    }
+
+    .rounded {
+      border-radius: 0.25rem
+    }
+
+    .rounded-2xl {
+      border-radius: 1rem
+    }
+
+    .rounded-lg {
+      border-radius: 0.5rem
+    }
+
+    .rounded-md {
+      border-radius: 0.375rem
+    }
+
+    .rounded-xl {
+      border-radius: 0.75rem
+    }
+
+    .rounded-full {
+      border-radius: 9999px
+    }
+
+    .border {
+      border-width: 1px
+    }
+
+    .border-2 {
+      border-width: 2px
+    }
+
+    .border-b {
+      border-bottom-width: 1px
+    }
+
+    .border-b-2 {
+      border-bottom-width: 2px
+    }
+
+    .border-t {
+      border-top-width: 1px
+    }
+
+    .border-r {
+      border-right-width: 1px
+    }
+
+    .border-dotted {
+      border-style: dotted
+    }
+
+    .border-amber-200 {
+      --tw-border-opacity: 1;
+      border-color: rgb(253 230 138 / var(--tw-border-opacity, 1))
+    }
+
+    .border-amber-300 {
+      --tw-border-opacity: 1;
+      border-color: rgb(252 211 77 / var(--tw-border-opacity, 1))
+    }
+
+    .border-sky-200 {
+      --tw-border-opacity: 1;
+      border-color: rgb(186 230 253 / var(--tw-border-opacity, 1))
+    }
+
+    .border-sky-400 {
+      --tw-border-opacity: 1;
+      border-color: rgb(56 189 248 / var(--tw-border-opacity, 1))
+    }
+
+    .border-slate-200 {
+      --tw-border-opacity: 1;
+      border-color: rgb(226 232 240 / var(--tw-border-opacity, 1))
+    }
+
+    .border-slate-300 {
+      --tw-border-opacity: 1;
+      border-color: rgb(203 213 225 / var(--tw-border-opacity, 1))
+    }
+
+    .border-slate-400 {
+      --tw-border-opacity: 1;
+      border-color: rgb(148 163 184 / var(--tw-border-opacity, 1))
+    }
+
+    .border-slate-600 {
+      --tw-border-opacity: 1;
+      border-color: rgb(71 85 105 / var(--tw-border-opacity, 1))
+    }
+
+    .border-slate-700 {
+      --tw-border-opacity: 1;
+      border-color: rgb(51 65 85 / var(--tw-border-opacity, 1))
+    }
+
+    .border-slate-900 {
+      --tw-border-opacity: 1;
+      border-color: rgb(15 23 42 / var(--tw-border-opacity, 1))
+    }
+
+    .border-emerald-300 {
+      --tw-border-opacity: 1;
+      border-color: rgb(110 231 183 / var(--tw-border-opacity, 1))
+    }
+
+    .border-rose-300 {
+      --tw-border-opacity: 1;
+      border-color: rgb(253 164 175 / var(--tw-border-opacity, 1))
+    }
+
+    .border-slate-500 {
+      --tw-border-opacity: 1;
+      border-color: rgb(100 116 139 / var(--tw-border-opacity, 1))
+    }
+
+    .border-slate-800 {
+      --tw-border-opacity: 1;
+      border-color: rgb(30 41 59 / var(--tw-border-opacity, 1))
+    }
+
+    .bg-amber-50 {
+      --tw-bg-opacity: 1;
+      background-color: rgb(255 251 235 / var(--tw-bg-opacity, 1))
+    }
+
+    .bg-emerald-500 {
+      --tw-bg-opacity: 1;
+      background-color: rgb(16 185 129 / var(--tw-bg-opacity, 1))
+    }
+
+    .bg-sky-50 {
+      --tw-bg-opacity: 1;
+      background-color: rgb(240 249 255 / var(--tw-bg-opacity, 1))
+    }
+
+    .bg-sky-500 {
+      --tw-bg-opacity: 1;
+      background-color: rgb(14 165 233 / var(--tw-bg-opacity, 1))
+    }
+
+    .bg-sky-600 {
+      --tw-bg-opacity: 1;
+      background-color: rgb(2 132 199 / var(--tw-bg-opacity, 1))
+    }
+
+    .bg-slate-100 {
+      --tw-bg-opacity: 1;
+      background-color: rgb(241 245 249 / var(--tw-bg-opacity, 1))
+    }
+
+    .bg-slate-50 {
+      --tw-bg-opacity: 1;
+      background-color: rgb(248 250 252 / var(--tw-bg-opacity, 1))
+    }
+
+    .bg-slate-800 {
+      --tw-bg-opacity: 1;
+      background-color: rgb(30 41 59 / var(--tw-bg-opacity, 1))
+    }
+
+    .bg-slate-900 {
+      --tw-bg-opacity: 1;
+      background-color: rgb(15 23 42 / var(--tw-bg-opacity, 1))
+    }
+
+    .bg-white {
+      --tw-bg-opacity: 1;
+      background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1))
+    }
+
+    .bg-emerald-100 {
+      --tw-bg-opacity: 1;
+      background-color: rgb(209 250 229 / var(--tw-bg-opacity, 1))
+    }
+
+    .bg-rose-100 {
+      --tw-bg-opacity: 1;
+      background-color: rgb(255 228 230 / var(--tw-bg-opacity, 1))
+    }
+
+    .bg-amber-100 {
+      --tw-bg-opacity: 1;
+      background-color: rgb(254 243 199 / var(--tw-bg-opacity, 1))
+    }
+
+    .bg-amber-500 {
+      --tw-bg-opacity: 1;
+      background-color: rgb(245 158 11 / var(--tw-bg-opacity, 1))
+    }
+
+    .bg-gradient-to-br {
+      background-image: linear-gradient(to bottom right, var(--tw-gradient-stops))
+    }
+
+    .from-sky-600 {
+      --tw-gradient-from: #0284c7 var(--tw-gradient-from-position);
+      --tw-gradient-to: rgb(2 132 199 / 0) var(--tw-gradient-to-position);
+      --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to)
+    }
+
+    .to-slate-900 {
+      --tw-gradient-to: #0f172a var(--tw-gradient-to-position)
+    }
+
+    .p-1 {
+      padding: 0.25rem
+    }
+
+    .p-1\.5 {
+      padding: 0.375rem
+    }
+
+    .p-2 {
+      padding: 0.5rem
+    }
+
+    .p-3 {
+      padding: 0.75rem
+    }
+
+    .p-3\.5 {
+      padding: 0.875rem
+    }
+
+    .p-4 {
+      padding: 1rem
+    }
+
+    .p-5 {
+      padding: 1.25rem
+    }
+
+    .p-6 {
+      padding: 1.5rem
+    }
+
+    .px-2 {
+      padding-left: 0.5rem;
+      padding-right: 0.5rem
+    }
+
+    .px-2\.5 {
+      padding-left: 0.625rem;
+      padding-right: 0.625rem
+    }
+
+    .px-3 {
+      padding-left: 0.75rem;
+      padding-right: 0.75rem
+    }
+
+    .px-4 {
+      padding-left: 1rem;
+      padding-right: 1rem
+    }
+
+    .py-0\.5 {
+      padding-top: 0.125rem;
+      padding-bottom: 0.125rem
+    }
+
+    .py-1 {
+      padding-top: 0.25rem;
+      padding-bottom: 0.25rem
+    }
+
+    .py-1\.5 {
+      padding-top: 0.375rem;
+      padding-bottom: 0.375rem
+    }
+
+    .py-2 {
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem
+    }
+
+    .py-2\.5 {
+      padding-top: 0.625rem;
+      padding-bottom: 0.625rem
+    }
+
+    .py-3 {
+      padding-top: 0.75rem;
+      padding-bottom: 0.75rem
+    }
+
+    .px-1\.5 {
+      padding-left: 0.375rem;
+      padding-right: 0.375rem
+    }
+
+    .pb-1 {
+      padding-bottom: 0.25rem
+    }
+
+    .pb-6 {
+      padding-bottom: 1.5rem
+    }
+
+    .pr-1 {
+      padding-right: 0.25rem
+    }
+
+    .pt-1 {
+      padding-top: 0.25rem
+    }
+
+    .pt-3 {
+      padding-top: 0.75rem
+    }
+
+    .pt-4 {
+      padding-top: 1rem
+    }
+
+    .pt-2 {
+      padding-top: 0.5rem
+    }
+
+    .text-left {
+      text-align: left
+    }
+
+    .text-center {
+      text-align: center
+    }
+
+    .text-right {
+      text-align: right
+    }
+
+    .text-2xl {
+      font-size: 1.5rem;
+      line-height: 2rem
+    }
+
+    .text-\[10px\] {
+      font-size: 10px
+    }
+
+    .text-\[11px\] {
+      font-size: 11px
+    }
+
+    .text-base {
+      font-size: 1rem;
+      line-height: 1.5rem
+    }
+
+    .text-sm {
+      font-size: 0.875rem;
+      line-height: 1.25rem
+    }
+
+    .text-xs {
+      font-size: 0.75rem;
+      line-height: 1rem
+    }
+
+    .text-lg {
+      font-size: 1.125rem;
+      line-height: 1.75rem
+    }
+
+    .font-bold {
+      font-weight: 700
+    }
+
+    .font-extrabold {
+      font-weight: 800
+    }
+
+    .font-medium {
+      font-weight: 500
+    }
+
+    .font-semibold {
+      font-weight: 600
+    }
+
+    .uppercase {
+      text-transform: uppercase
+    }
+
+    .italic {
+      font-style: italic
+    }
+
+    .leading-relaxed {
+      line-height: 1.625
+    }
+
+    .leading-tight {
+      line-height: 1.25
+    }
+
+    .tracking-tight {
+      letter-spacing: -0.025em
+    }
+
+    .tracking-wide {
+      letter-spacing: 0.025em
+    }
+
+    .tracking-wider {
+      letter-spacing: 0.05em
+    }
+
+    .tracking-widest {
+      letter-spacing: 0.1em
+    }
+
+    .text-amber-600 {
+      --tw-text-opacity: 1;
+      color: rgb(217 119 6 / var(--tw-text-opacity, 1))
+    }
+
+    .text-amber-900 {
+      --tw-text-opacity: 1;
+      color: rgb(120 53 15 / var(--tw-text-opacity, 1))
+    }
+
+    .text-sky-400 {
+      --tw-text-opacity: 1;
+      color: rgb(56 189 248 / var(--tw-text-opacity, 1))
+    }
+
+    .text-sky-600 {
+      --tw-text-opacity: 1;
+      color: rgb(2 132 199 / var(--tw-text-opacity, 1))
+    }
+
+    .text-sky-700 {
+      --tw-text-opacity: 1;
+      color: rgb(3 105 161 / var(--tw-text-opacity, 1))
+    }
+
+    .text-sky-900 {
+      --tw-text-opacity: 1;
+      color: rgb(12 74 110 / var(--tw-text-opacity, 1))
+    }
+
+    .text-slate-200 {
+      --tw-text-opacity: 1;
+      color: rgb(226 232 240 / var(--tw-text-opacity, 1))
+    }
+
+    .text-slate-300 {
+      --tw-text-opacity: 1;
+      color: rgb(203 213 225 / var(--tw-text-opacity, 1))
+    }
+
+    .text-slate-400 {
+      --tw-text-opacity: 1;
+      color: rgb(148 163 184 / var(--tw-text-opacity, 1))
+    }
+
+    .text-slate-500 {
+      --tw-text-opacity: 1;
+      color: rgb(100 116 139 / var(--tw-text-opacity, 1))
+    }
+
+    .text-slate-600 {
+      --tw-text-opacity: 1;
+      color: rgb(71 85 105 / var(--tw-text-opacity, 1))
+    }
+
+    .text-slate-700 {
+      --tw-text-opacity: 1;
+      color: rgb(51 65 85 / var(--tw-text-opacity, 1))
+    }
+
+    .text-slate-800 {
+      --tw-text-opacity: 1;
+      color: rgb(30 41 59 / var(--tw-text-opacity, 1))
+    }
+
+    .text-slate-900 {
+      --tw-text-opacity: 1;
+      color: rgb(15 23 42 / var(--tw-text-opacity, 1))
+    }
+
+    .text-white {
+      --tw-text-opacity: 1;
+      color: rgb(255 255 255 / var(--tw-text-opacity, 1))
+    }
+
+    .text-emerald-800 {
+      --tw-text-opacity: 1;
+      color: rgb(6 95 70 / var(--tw-text-opacity, 1))
+    }
+
+    .text-rose-500 {
+      --tw-text-opacity: 1;
+      color: rgb(244 63 94 / var(--tw-text-opacity, 1))
+    }
+
+    .text-rose-800 {
+      --tw-text-opacity: 1;
+      color: rgb(159 18 57 / var(--tw-text-opacity, 1))
+    }
+
+    .text-amber-800 {
+      --tw-text-opacity: 1;
+      color: rgb(146 64 14 / var(--tw-text-opacity, 1))
+    }
+
+    .antialiased {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale
+    }
+
+    .shadow {
+      --tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+      --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);
+      box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)
+    }
+
+    .shadow-lg {
+      --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+      --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
+      box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)
+    }
+
+    .shadow-md {
+      --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
+      box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)
+    }
+
+    .shadow-sm {
+      --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
+      box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)
+    }
+
+    .shadow-xl {
+      --tw-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+      --tw-shadow-colored: 0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);
+      box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)
+    }
+
+    .outline-none {
+      outline: 2px solid transparent;
+      outline-offset: 2px
+    }
+
+    .transition {
+      transition-property: color, background-color, border-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-text-decoration-color, -webkit-backdrop-filter;
+      transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+      transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-text-decoration-color, -webkit-backdrop-filter;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 150ms
+    }
+
+    .transition-all {
+      transition-property: all;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 150ms
+    }
+
+    .selection\:bg-sky-500 *::selection {
+      --tw-bg-opacity: 1;
+      background-color: rgb(14 165 233 / var(--tw-bg-opacity, 1))
+    }
+
+    .selection\:text-white *::selection {
+      --tw-text-opacity: 1;
+      color: rgb(255 255 255 / var(--tw-text-opacity, 1))
+    }
+
+    .selection\:bg-sky-500::selection {
+      --tw-bg-opacity: 1;
+      background-color: rgb(14 165 233 / var(--tw-bg-opacity, 1))
+    }
+
+    .selection\:text-white::selection {
+      --tw-text-opacity: 1;
+      color: rgb(255 255 255 / var(--tw-text-opacity, 1))
+    }
+
+    .hover\:bg-emerald-600:hover {
+      --tw-bg-opacity: 1;
+      background-color: rgb(5 150 105 / var(--tw-bg-opacity, 1))
+    }
+
+    .hover\:bg-sky-100:hover {
+      --tw-bg-opacity: 1;
+      background-color: rgb(224 242 254 / var(--tw-bg-opacity, 1))
+    }
+
+    .hover\:bg-sky-600:hover {
+      --tw-bg-opacity: 1;
+      background-color: rgb(2 132 199 / var(--tw-bg-opacity, 1))
+    }
+
+    .hover\:bg-slate-700:hover {
+      --tw-bg-opacity: 1;
+      background-color: rgb(51 65 85 / var(--tw-bg-opacity, 1))
+    }
+
+    .hover\:bg-rose-100:hover {
+      --tw-bg-opacity: 1;
+      background-color: rgb(255 228 230 / var(--tw-bg-opacity, 1))
+    }
+
+    .hover\:bg-slate-50\/80:hover {
+      background-color: rgb(248 250 252 / 0.8)
+    }
+
+    .hover\:text-sky-800:hover {
+      --tw-text-opacity: 1;
+      color: rgb(7 89 133 / var(--tw-text-opacity, 1))
+    }
+
+    .hover\:text-white:hover {
+      --tw-text-opacity: 1;
+      color: rgb(255 255 255 / var(--tw-text-opacity, 1))
+    }
+
+    .focus\:border-sky-500:focus {
+      --tw-border-opacity: 1;
+      border-color: rgb(14 165 233 / var(--tw-border-opacity, 1))
+    }
+
+    .focus\:outline-none:focus {
+      outline: 2px solid transparent;
+      outline-offset: 2px
+    }
+
+    .focus\:ring-2:focus {
+      --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+      --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+      box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)
+    }
+
+    .focus\:ring-sky-500:focus {
+      --tw-ring-opacity: 1;
+      --tw-ring-color: rgb(14 165 233 / var(--tw-ring-opacity, 1))
+    }
+
+    @media (min-width: 640px) {
+      .sm\:col-span-1 {
+        grid-column: span 1 / span 1
+      }
+
+      .sm\:col-span-5 {
+        grid-column: span 5 / span 5
+      }
+
+      .sm\:col-span-7 {
+        grid-column: span 7 / span 7
+      }
+
+      .sm\:w-auto {
+        width: auto
+      }
+
+      .sm\:grid-cols-12 {
+        grid-template-columns: repeat(12, minmax(0, 1fr))
+      }
+
+      .sm\:grid-cols-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr))
+      }
+
+      .sm\:grid-cols-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr))
+      }
+
+      .sm\:flex-row {
+        flex-direction: row
+      }
+
+      .sm\:items-center {
+        align-items: center
+      }
+
+      .sm\:border-0 {
+        border-width: 0px
+      }
+
+      .sm\:bg-transparent {
+        background-color: transparent
+      }
+
+      .sm\:p-0 {
+        padding: 0px
+      }
+
+      .sm\:p-10 {
+        padding: 2.5rem
+      }
+
+      .sm\:p-6 {
+        padding: 1.5rem
+      }
+
+      .sm\:text-right {
+        text-align: right
+      }
+
+      .sm\:text-3xl {
+        font-size: 1.875rem;
+        line-height: 2.25rem
+      }
+
+      .sm\:text-base {
+        font-size: 1rem;
+        line-height: 1.5rem
+      }
+
+      .sm\:text-lg {
+        font-size: 1.125rem;
+        line-height: 1.75rem
+      }
+
+      .sm\:text-sm {
+        font-size: 0.875rem;
+        line-height: 1.25rem
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .lg\:col-span-5 {
+        grid-column: span 5 / span 5
+      }
+
+      .lg\:col-span-7 {
+        grid-column: span 7 / span 7
+      }
+
+      .lg\:grid-cols-12 {
+        grid-template-columns: repeat(12, minmax(0, 1fr))
+      }
+    }
+  </style>
+</head>
+
+<body class="text-slate-800 antialiased selection:bg-sky-500 selection:text-white">
+
+  <!-- TOP ACTION BAR (Hidden when printing) -->
+  <header class="no-print bg-slate-900 text-white sticky top-0 z-50 shadow-lg border-b border-slate-700">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <div class="bg-sky-500 p-2 rounded-lg text-white">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 3v18m0-18l-3 3m3-3l3 3m-3 15l-3-3m3 3l3-3M3 12h18M3 12l3-3m-3 3l3 3m15-3l-3-3m3 3l-3 3"></path>
+          </svg>
+        </div>
+        <div>
+          <h1 class="font-bold text-base sm:text-lg leading-tight">NK AC Services</h1>
+          <p class="text-xs text-slate-400">3-in-1 Billing &amp; Quotation System (Offline Ready)</p>
+        </div>
+      </div>
+
+      <!-- Mode Selector Pills -->
+      <div class="flex bg-slate-800 p-1 rounded-xl border border-slate-700">
+        <button onclick="setMode('INVOICE')" id="btn-mode-invoice"
+          class="px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all text-slate-300 hover:text-white">
+          1. Final Invoice
+        </button>
+        <button onclick="setMode('QUOTATION')" id="btn-mode-quotation"
+          class="px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all text-slate-300 hover:text-white">
+          2. Quotation
+        </button>
+        <button onclick="setMode('BLANK')" id="btn-mode-blank"
+          class="px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-sky-500 text-white shadow">
+          3. Blank Billbook
+        </button>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center gap-2">
+        <button onclick="downloadOfflineApp()" title="Save single HTML file to work without internet anywhere"
+          class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-600 px-3 py-2 rounded-lg text-xs sm:text-sm font-medium flex items-center gap-1.5 transition">
+          <svg class="w-4 h-4 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+          </svg>
+          <span>Save Offline App</span>
+        </button>
+        <button onclick="window.print()"
+          class="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-lg text-xs sm:text-sm font-bold flex items-center gap-1.5 shadow-md transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z">
+            </path>
+          </svg>
+          <span>Print / Save PDF</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN WORKSPACE -->
+  <main class="max-w-7xl mx-auto p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+    <!-- LEFT PANEL: EDITOR CONTROLS (Hidden on Print) -->
+    <section id="editor-panel"
+      class="no-print lg:col-span-5 bg-white rounded-2xl shadow-sm border border-slate-200 p-5 space-y-5">
+
+      <!-- Mode Guide Banner -->
+      <div id="mode-helper-banner" class="bg-sky-50 border border-sky-200 rounded-xl p-3.5 flex items-start gap-3">
+        <div class="bg-sky-500 text-white p-1.5 rounded-lg mt-0.5">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+        </div>
+        <div class="text-xs text-sky-900 space-y-0.5">
+          <p id="helper-title" class="font-bold text-sm">Mode 3: Blank Billbook (Print &amp; Write with Pen)</p>
+          <p id="helper-desc">Iska printout nikaal kar billbook bana lein taaki baghair phone/internet ke haath se bill
+            likh sakein.</p>
+        </div>
+      </div>
+
+      <!-- Blank Mode Overlay Notice -->
+      <div id="blank-mode-notice" class="bg-amber-50 border border-amber-200 rounded-xl p-4 text-amber-900 space-y-3">
+        <div class="flex items-center gap-2 font-bold text-base">
+          <svg class="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
+            </path>
+          </svg>
+          <span>Blank Billbook Mode Active!</span>
+        </div>
+        <p class="text-xs leading-relaxed">
+          Is mode mein saari customer fields aur table khali (blank lines) ho gayi hain. Aap iske **50 ya 100 prints**
+          nikaal kar stapled Billbook bana sakte hain taaki jab mobile ya internet na ho, toh haath (pen) se likh kar
+          customer ko parchi de sakein!
+        </p>
+        <div class="pt-1">
+          <label class="text-xs font-semibold block mb-1">Blank Rows Count (Likhne ki lines):</label>
+          <select id="blank-rows-count" onchange="renderDocument()"
+            class="w-full rounded-lg border border-amber-300 bg-white px-3 py-2 text-sm font-medium">
+            <option value="8">8 Lines (Standard Half/A4)</option>
+            <option value="12" selected="">12 Lines (Full A4 Page)</option>
+            <option value="15">15 Lines (Extra Large)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Digital Form Inputs (Hidden in Blank Mode) -->
+      <div id="digital-inputs" class="space-y-5 hidden">
+
+        <!-- Document Meta & Status -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 mb-1">Serial / Bill #</label>
+            <input type="text" id="doc-number" value="NK-1042" oninput="renderDocument()"
+              class="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm font-semibold focus:ring-2 focus:ring-sky-500 outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 mb-1">Date</label>
+            <input type="date" id="doc-date" oninput="renderDocument()"
+              class="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-sky-500 outline-none">
+          </div>
+          <div id="status-wrapper" class="col-span-2 sm:col-span-1">
+            <label id="status-label" class="block text-xs font-semibold text-slate-600 mb-1">Payment Status</label>
+            <select id="doc-status" onchange="renderDocument()"
+              class="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm font-semibold bg-white focus:ring-2 focus:ring-sky-500 outline-none">
+              <option value="PAID">PAID</option>
+              <option value="UNPAID">UNPAID</option>
+              <option value="PARTIAL">ADVANCE / PARTIAL</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Customer Details -->
+        <div class="border-t border-slate-200 pt-4 space-y-3">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Customer &amp; Model</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-medium text-slate-600 mb-1">Customer Name</label>
+              <input type="text" id="cust-name" placeholder="e.g. Tariq Mehmood" value="Mr. Kamran Siddiqui"
+                oninput="renderDocument()"
+                class="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-sky-500 outline-none">
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-slate-600 mb-1">Phone Number</label>
+              <input type="text" id="cust-phone" placeholder="0300-XXXXXXX" value="0321-8245190"
+                oninput="renderDocument()"
+                class="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-sky-500 outline-none">
+            </div>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-medium text-slate-600 mb-1">Area / Address (Karachi)</label>
+              <input type="text" id="cust-address" placeholder="e.g. Block 13-D, Gulshan-e-Iqbal"
+                value="Block 6, PECHS, Karachi" oninput="renderDocument()"
+                class="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-sky-500 outline-none">
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-slate-600 mb-1">Model</label>
+              <input type="text" id="cust-ac" placeholder="e.g. Gree 1.5 Ton Inverter"
+                value="Gree 1.5 Ton Split Inverter" oninput="renderDocument()"
+                class="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-sky-500 outline-none">
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Add AC Services (Preset Buttons for Technician Speed) -->
+        <div class="border-t border-slate-200 pt-4 space-y-2">
+          <div class="flex items-center justify-between">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">1-Click AC Services (Fast Add)</h3>
+            <span class="text-[11px] text-sky-600 font-medium">Tap to add</span>
+          </div>
+          <div class="flex flex-wrap gap-1.5">
+            <button onclick="addPresetItem('AC Master Chemical Service (Indoor/Outdoor)', 2500)"
+              class="text-xs bg-slate-100 hover:bg-sky-100 hover:text-sky-800 text-slate-700 px-2.5 py-1.5 rounded-lg font-medium border border-slate-200 transition">+
+              Master Service</button>
+            <button onclick="addPresetItem('R410A / R22 Gas Refilling &amp; Pressure Testing', 4500)"
+              class="text-xs bg-slate-100 hover:bg-sky-100 hover:text-sky-800 text-slate-700 px-2.5 py-1.5 rounded-lg font-medium border border-slate-200 transition">+
+              Gas Refill</button>
+            <button onclick="addPresetItem('Split AC Complete Installation', 3500)"
+              class="text-xs bg-slate-100 hover:bg-sky-100 hover:text-sky-800 text-slate-700 px-2.5 py-1.5 rounded-lg font-medium border border-slate-200 transition">+
+              AC Installation</button>
+            <button onclick="addPresetItem('Inverter PCB Kit Repairing', 4000)"
+              class="text-xs bg-slate-100 hover:bg-sky-100 hover:text-sky-800 text-slate-700 px-2.5 py-1.5 rounded-lg font-medium border border-slate-200 transition">+
+              PCB Repair</button>
+            <button onclick="addPresetItem('Capacitor Replacement (Original)', 1200)"
+              class="text-xs bg-slate-100 hover:bg-sky-100 hover:text-sky-800 text-slate-700 px-2.5 py-1.5 rounded-lg font-medium border border-slate-200 transition">+
+              Capacitor</button>
+            <button onclick="addPresetItem('Copper Piping &amp; Insulation (Per Foot)', 950)"
+              class="text-xs bg-slate-100 hover:bg-sky-100 hover:text-sky-800 text-slate-700 px-2.5 py-1.5 rounded-lg font-medium border border-slate-200 transition">+
+              Copper Pipe</button>
+            <button onclick="addPresetItem('Compressor Checking / Visiting Charges', 1000)"
+              class="text-xs bg-slate-100 hover:bg-sky-100 hover:text-sky-800 text-slate-700 px-2.5 py-1.5 rounded-lg font-medium border border-slate-200 transition">+
+              Visit Charge</button>
+          </div>
+        </div>
+
+        <!-- Dynamic Line Items List -->
+        <div class="border-t border-slate-200 pt-4 space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Bill Items / Particulars</h3>
+            <button onclick="addEmptyItem()"
+              class="text-xs bg-sky-500 hover:bg-sky-600 text-white px-2.5 py-1 rounded-md font-semibold transition">+
+              Add Custom Row</button>
+          </div>
+
+          <div id="items-editor-list" class="space-y-2 max-h-60 overflow-y-auto pr-1">
+            <div class="grid grid-cols-12 gap-1.5 items-center bg-slate-50 p-2 rounded-lg border border-slate-200">
+              <div class="col-span-6">
+                <input type="text" value="" placeholder="Service / Part name"
+                  oninput="updateItem(0, 'desc', this.value)"
+                  class="w-full px-2 py-1 text-xs rounded border border-slate-300 bg-white focus:outline-none focus:border-sky-500">
+              </div>
+              <div class="col-span-2">
+                <input type="number" value="1" min="1" oninput="updateItem(0, 'qty', this.value)"
+                  class="w-full px-1.5 py-1 text-xs text-center rounded border border-slate-300 bg-white focus:outline-none focus:border-sky-500">
+              </div>
+              <div class="col-span-3">
+                <input type="number" value="0" min="0" oninput="updateItem(0, 'rate', this.value)"
+                  class="w-full px-2 py-1 text-xs text-right rounded border border-slate-300 bg-white focus:outline-none focus:border-sky-500">
+              </div>
+              <div class="col-span-1 flex justify-end">
+                <button onclick="removeItem(0)" class="text-rose-500 hover:bg-rose-100 p-1 rounded transition"
+                  title="Remove row">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                    </path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div class="grid grid-cols-12 gap-1.5 items-center bg-slate-50 p-2 rounded-lg border border-slate-200">
+              <div class="col-span-6">
+                <input type="text" value="Split AC Complete Installation" placeholder="Service / Part name"
+                  oninput="updateItem(1, 'desc', this.value)"
+                  class="w-full px-2 py-1 text-xs rounded border border-slate-300 bg-white focus:outline-none focus:border-sky-500">
+              </div>
+              <div class="col-span-2">
+                <input type="number" value="1" min="1" oninput="updateItem(1, 'qty', this.value)"
+                  class="w-full px-1.5 py-1 text-xs text-center rounded border border-slate-300 bg-white focus:outline-none focus:border-sky-500">
+              </div>
+              <div class="col-span-3">
+                <input type="number" value="3500" min="0" oninput="updateItem(1, 'rate', this.value)"
+                  class="w-full px-2 py-1 text-xs text-right rounded border border-slate-300 bg-white focus:outline-none focus:border-sky-500">
+              </div>
+              <div class="col-span-1 flex justify-end">
+                <button onclick="removeItem(1)" class="text-rose-500 hover:bg-rose-100 p-1 rounded transition"
+                  title="Remove row">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                    </path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Discount & Notes -->
+        <div class="border-t border-slate-200 pt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-medium text-slate-600 mb-1">Discount (Rs.)</label>
+            <input type="number" id="doc-discount" value="0" min="0" oninput="renderDocument()"
+              class="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-sky-500 outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-slate-600 mb-1">Warranty / Note</label>
+            <input type="text" id="doc-note" value="15 Days service warranty." oninput="renderDocument()"
+              class="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-sky-500 outline-none">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RIGHT PANEL: LIVE A4 DOCUMENT PREVIEW (Prints cleanly) -->
+    <section class="lg:col-span-7 flex justify-center">
+      <div
+        class="print-container w-full max-w-[210mm] bg-white rounded-2xl shadow-xl border border-slate-200 p-6 sm:p-10 flex flex-col justify-between min-h-[285mm]">
+
+        <!-- TOP SECTION: BRAND HEADER + CUSTOMER BOX -->
+        <div>
+          <!-- Company Header & Logo -->
+          <div
+            class="print-header flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-6 border-b-2 border-slate-900">
+            <div class="flex items-center gap-3.5">
+              <!-- Custom Designed Vector Logo for Naveed Khan AC Team -->
+              <div
+                class="w-16 h-16 rounded-2xl bg-gradient-to-br from-sky-600 to-slate-900 flex items-center justify-center text-white shadow-md shrink-0 border-2 border-sky-400">
+                <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                    d="M12 2v20M17 5l-5 5-5-5M17 19l-5-5-5 5M2 12h20M5 7l5 5-5 5M19 7l-5 5 5 5"></path>
+                </svg>
+              </div>
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="text-xs font-semibold text-slate-500 uppercase tracking-widest">HVAC &amp; Cooling
+                    Experts</span>
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mt-0.5">NK</h2>
+                <p class="text-xs sm:text-sm font-bold text-sky-700 uppercase tracking-wide">Your Comfort Is Our
+                  Priority</p>
+              </div>
+            </div>
+
+            <!-- Contact Box -->
+            <div
+              class="text-left sm:text-right bg-slate-50 sm:bg-transparent p-3 sm:p-0 rounded-xl border sm:border-0 border-slate-200 w-full sm:w-auto">
+              <p class="text-xs font-bold uppercase text-slate-500 tracking-wider">Contact</p>
+              <p class="text-sm sm:text-base font-extrabold text-slate-900 mt-0.5">📞 0313-2667993</p>
+              <p class="text-sm sm:text-base font-extrabold text-slate-900">📞 0309-5559951</p>
+              <p class="text-[11px] font-semibold text-slate-600 mt-0.5">📍 Badar Commercial, St 10, DHA</p>
+            </div>
+          </div>
+
+          <!-- Service Specialties Ribbon -->
+          <div
+            class="print-ribbon bg-slate-900 text-white text-[11px] font-semibold py-1.5 px-4 rounded-lg my-4 flex flex-wrap justify-between items-center gap-2">
+            <span>✓ Split &amp; Inverter AC Repair</span>
+            <span>✓ Master Chemical Wash</span>
+            <span>✓ Gas Charging</span>
+            <span>✓ PCB Kit &amp; Fitting</span>
+          </div>
+
+          <!-- Document Type Badge & Meta Info -->
+          <div class="print-badge flex flex-wrap justify-between items-end gap-4 my-5">
+            <div>
+              <span id="preview-doc-badge"
+                class="inline-block bg-slate-900 text-white text-sm sm:text-base font-extrabold px-4 py-1.5 rounded-lg uppercase tracking-wider">INVOICE
+                / QUOTATION MEMO</span>
+            </div>
+
+            <!-- Dynamic vs Blank Meta -->
+            <div id="preview-meta-box" class="text-right space-y-1">
+              <div class="text-xs font-bold text-slate-800">Serial No: <span
+                  class="inline-block w-28 border-b border-dotted border-slate-700"></span></div>
+              <div class="text-xs font-bold text-slate-800 pt-2">Date: <span
+                  class="inline-block w-28 border-b border-dotted border-slate-700"></span></div>
+            </div>
+          </div>
+
+          <!-- Customer Info Block -->
+          <div id="preview-customer-box"
+            class="print-customer-box bg-slate-50 rounded-xl p-4 border border-slate-300 mb-6">
+            <div class="grid grid-cols-12 gap-y-3 gap-x-4 text-xs font-bold text-slate-800">
+              <div class="col-span-8 flex items-end gap-2">
+                <span class="shrink-0 text-slate-900 font-bold">Customer Name:</span>
+                <span class="handwrite-line"></span>
+              </div>
+              <div class="col-span-4 flex items-end gap-2">
+                <span class="shrink-0 text-slate-900 font-bold">Phone:</span>
+                <span class="handwrite-line"></span>
+              </div>
+              <div class="col-span-7 flex items-end gap-2">
+                <span class="shrink-0 text-slate-900 font-bold">Address / Area:</span>
+                <span class="handwrite-line"></span>
+              </div>
+              <div class="col-span-5 flex items-end gap-2">
+                <span class="shrink-0 text-slate-900 font-bold">Model:</span>
+                <span class="handwrite-line"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- ITEMS TABLE -->
+          <div class="overflow-hidden rounded-xl border border-slate-300">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="bg-slate-900 text-white text-xs uppercase tracking-wider">
+                  <th class="py-2.5 px-3 w-12 text-center">#</th>
+                  <th class="py-2.5 px-4">Service Description / Particulars</th>
+                  <th class="py-2.5 px-3 w-20 text-center">Qty</th>
+                  <th class="py-2.5 px-3 w-28 text-right">Rate (Rs)</th>
+                  <th class="py-2.5 px-4 w-32 text-right">Amount (Rs)</th>
+                </tr>
+              </thead>
+              <tbody id="preview-table-body" class="divide-y divide-slate-300 text-sm">
+                <tr class="h-9">
+                  <td class="px-3 text-center text-xs font-semibold text-slate-700 border-r border-slate-300">1</td>
+                  <td class="px-4 border-r border-slate-300"></td>
+                  <td class="px-3 border-r border-slate-300"></td>
+                  <td class="px-3 border-r border-slate-300"></td>
+                  <td class="px-4"></td>
+                </tr>
+
+                <tr class="h-9">
+                  <td class="px-3 text-center text-xs font-semibold text-slate-700 border-r border-slate-300">2</td>
+                  <td class="px-4 border-r border-slate-300"></td>
+                  <td class="px-3 border-r border-slate-300"></td>
+                  <td class="px-3 border-r border-slate-300"></td>
+                  <td class="px-4"></td>
+                </tr>
+
+                <tr class="h-9">
+                  <td class="px-3 text-center text-xs font-semibold text-slate-700 border-r border-slate-300">3</td>
+                  <td class="px-4 border-r border-slate-300"></td>
+                  <td class="px-3 border-r border-slate-300"></td>
+                  <td class="px-3 border-r border-slate-300"></td>
+                  <td class="px-4"></td>
+                </tr>
+
+                <tr class="h-9">
+                  <td class="px-3 text-center text-xs font-semibold text-slate-700 border-r border-slate-300">4</td>
+                  <td class="px-4 border-r border-slate-300"></td>
+                  <td class="px-3 border-r border-slate-300"></td>
+                  <td class="px-3 border-r border-slate-300"></td>
+                  <td class="px-4"></td>
+                </tr>
+
+                <tr class="h-9">
+                  <td class="px-3 text-center text-xs font-semibold text-slate-700 border-r border-slate-300">5</td>
+                  <td class="px-4 border-r border-slate-300"></td>
+                  <td class="px-3 border-r border-slate-300"></td>
+                  <td class="px-3 border-r border-slate-300"></td>
+                  <td class="px-4"></td>
+                </tr>
+
+                <tr class="h-9">
+                  <td class="px-3 text-center text-xs font-semibold text-slate-700 border-r border-slate-300">6</td>
+                  <td class="px-4 border-r border-slate-300"></td>
+                  <td class="px-3 border-r border-slate-300"></td>
+                  <td class="px-3 border-r border-slate-300"></td>
+                  <td class="px-4"></td>
+                </tr>
+
+                <tr class="h-9">
+                  <td class="px-3 text-center text-xs font-semibold text-slate-700 border-r border-slate-300">7</td>
+                  <td class="px-4 border-r border-slate-300"></td>
+                  <td class="px-3 border-r border-slate-300"></td>
+                  <td class="px-3 border-r border-slate-300"></td>
+                  <td class="px-4"></td>
+                </tr>
+
+                <tr class="h-9">
+                  <td class="px-3 text-center text-xs font-semibold text-slate-700 border-r border-slate-300">8</td>
+                  <td class="px-4 border-r border-slate-300"></td>
+                  <td class="px-3 border-r border-slate-300"></td>
+                  <td class="px-3 border-r border-slate-300"></td>
+                  <td class="px-4"></td>
+                </tr>
+
+                <tr class="h-9">
+                  <td class="px-3 text-center text-xs font-semibold text-slate-700 border-r border-slate-300">9</td>
+                  <td class="px-4 border-r border-slate-300"></td>
+                  <td class="px-3 border-r border-slate-300"></td>
+                  <td class="px-3 border-r border-slate-300"></td>
+                  <td class="px-4"></td>
+                </tr>
+
+                <tr class="h-9">
+                  <td class="px-3 text-center text-xs font-semibold text-slate-700 border-r border-slate-300">10</td>
+                  <td class="px-4 border-r border-slate-300"></td>
+                  <td class="px-3 border-r border-slate-300"></td>
+                  <td class="px-3 border-r border-slate-300"></td>
+                  <td class="px-4"></td>
+                </tr>
+
+                <tr class="h-9">
+                  <td class="px-3 text-center text-xs font-semibold text-slate-700 border-r border-slate-300">11</td>
+                  <td class="px-4 border-r border-slate-300"></td>
+                  <td class="px-3 border-r border-slate-300"></td>
+                  <td class="px-3 border-r border-slate-300"></td>
+                  <td class="px-4"></td>
+                </tr>
+
+                <tr class="h-9">
+                  <td class="px-3 text-center text-xs font-semibold text-slate-700 border-r border-slate-300">12</td>
+                  <td class="px-4 border-r border-slate-300"></td>
+                  <td class="px-3 border-r border-slate-300"></td>
+                  <td class="px-3 border-r border-slate-300"></td>
+                  <td class="px-4"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- BOTTOM SECTION: TOTALS, TERMS & SIGNATURES -->
+        <div class="print-bottom-section mt-6 pt-4 border-t border-slate-300">
+          <div class="grid grid-cols-1 sm:grid-cols-12 gap-6 items-start">
+
+            <!-- Terms & Warranty Box -->
+            <div class="sm:col-span-7 space-y-2">
+              <h4 class="text-xs font-extrabold uppercase tracking-wider text-slate-800">Terms &amp; Conditions</h4>
+              <p id="preview-note"
+                class="text-xs text-slate-700 leading-relaxed bg-slate-50 p-3 rounded-lg border border-slate-300">15
+                DAYS SERVICE WARRANTY</p>
+              <ul class="text-[11px] text-slate-600 list-disc list-inside space-y-0.5">
+                <li>Warranty is strictly valid only upon presenting the original bill/invoice.</li>
+                <li>Warranty covers only the specific repaired/replaced parts or service mentioned on the bill.</li>
+                <li>After Service Time Frame If Problem Arise We Are Not Responsible</li>
+
+              </ul>
+            </div>
+
+            <!-- Totals Summary Table -->
+            <div id="preview-totals-box"
+              class="sm:col-span-5 bg-slate-50 rounded-xl p-4 border border-slate-300 space-y-2">
+              <div
+                class="flex justify-between items-center text-xs font-bold text-slate-700 py-1 border-b border-slate-300">
+                <span>Subtotal:</span>
+                <span class="inline-block w-24 border-b border-dotted border-slate-600 h-4"></span>
+              </div>
+              <div
+                class="flex justify-between items-center text-xs font-bold text-slate-700 py-1 border-b border-slate-300">
+                <span>Discount / Advance:</span>
+                <span class="inline-block w-24 border-b border-dotted border-slate-600 h-4"></span>
+              </div>
+              <div class="flex justify-between items-center text-sm font-extrabold text-slate-900 pt-2">
+                <span>TOTAL AMOUNT (Rs):</span>
+                <span class="inline-block w-28 border-b-2 border-slate-900 h-5"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Signature Row -->
+          <div class="print-sig-row grid grid-cols-2 gap-8 mt-12 pt-4">
+            <div class="text-center">
+              <div class="border-b-2 border-slate-800 h-8"></div>
+              <p class="text-xs font-bold text-slate-800 mt-1.5">Customer Signature</p>
+            </div>
+            <div class="text-center">
+              <div class="border-b-2 border-slate-800 h-8 flex items-end justify-center pb-1">
+              </div>
+              <p class="text-xs font-bold text-slate-800 mt-1.5">Authorized Technician Sign</p>
+            </div>
+          </div>
+
+          <!-- Footer Strip -->
+          <div
+            class="print-footer mt-6 pt-3 border-t border-slate-300 flex flex-wrap justify-between items-center text-[11px] text-slate-600 font-semibold">
+            <span>NK AC Technical Services • Karachi</span>
+            <span>Call / WhatsApp: 0313-2667993 | 0309-5559951</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Application State
+    let currentMode = 'INVOICE'; // 'INVOICE' | 'QUOTATION' | 'BLANK'
+    let lineItems = [
+      { id: 1, desc: 'AC Master Chemical Service (Indoor & Outdoor Unit)', qty: 1, rate: 2500 },
+      { id: 2, desc: 'R410A Inverter Gas Top-up & Pressure Testing', qty: 1, rate: 3000 }
+    ];
+
+    // Set default today's date on load
+    window.onload = function () {
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('doc-date').value = today;
+      renderEditorItems();
+      renderDocument();
+    };
+
+    // Switch between Invoice, Quotation, and Blank Billbook
+    function setMode(mode) {
+      currentMode = mode;
+
+      // Update Mode Buttons UI
+      const modes = ['invoice', 'quotation', 'blank'];
+      modes.forEach(m => {
+        const btn = document.getElementById('btn-mode-' + m);
+        if (m.toUpperCase() === mode) {
+          btn.className = 'px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-sky-500 text-white shadow';
+        } else {
+          btn.className = 'px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all text-slate-300 hover:text-white';
+        }
+      });
+
+      const digitalInputs = document.getElementById('digital-inputs');
+      const blankNotice = document.getElementById('blank-mode-notice');
+      const helperTitle = document.getElementById('helper-title');
+      const helperDesc = document.getElementById('helper-desc');
+      const statusLabel = document.getElementById('status-label');
+      const statusSelect = document.getElementById('doc-status');
+
+      if (mode === 'BLANK') {
+        digitalInputs.classList.add('hidden');
+        blankNotice.classList.remove('hidden');
+        helperTitle.textContent = 'Mode 3: Blank Billbook (Print & Write with Pen)';
+        helperDesc.textContent = 'Iska printout nikaal kar billbook bana lein taaki baghair phone/internet ke haath se bill likh sakein.';
+      } else {
+        digitalInputs.classList.remove('hidden');
+        blankNotice.classList.add('hidden');
+
+        if (mode === 'INVOICE') {
+          helperTitle.textContent = 'Mode 1: Final Invoice (Kaam mukammal hone ke baad)';
+          helperDesc.textContent = 'Final bill banayein aur PDF save kar ke customer ko WhatsApp karein ya print dein.';
+          statusLabel.textContent = 'Payment Status';
+          statusSelect.innerHTML = `
+                        <option value="PAID">PAID (Ada Shuda)</option>
+                        <option value="UNPAID">UNPAID (Baqaya)</option>
+                        <option value="PARTIAL">ADVANCE / PARTIAL</option>
+                    `;
+        } else if (mode === 'QUOTATION') {
+          helperTitle.textContent = 'Mode 2: Quotation / Estimate (Kaam se pehle)';
+          helperDesc.textContent = 'Customer ko kaam shuru karne se pehle estimated kharcha (Quotation) bana kar bhejein.';
+          statusLabel.textContent = 'Estimate Validity';
+          statusSelect.innerHTML = `
+                        <option value="VALID FOR 7 DAYS">Valid for 7 Days</option>
+                        <option value="VALID FOR 15 DAYS">Valid for 15 Days</option>
+                        <option value="APPROVAL PENDING">Approval Pending</option>
+                    `;
+        }
+      }
+
+      renderDocument();
+    }
+
+    // Render left-side item editor rows
+    function renderEditorItems() {
+      const container = document.getElementById('items-editor-list');
+      container.innerHTML = '';
+
+      lineItems.forEach((item, index) => {
+        const row = document.createElement('div');
+        row.className = 'grid grid-cols-12 gap-1.5 items-center bg-slate-50 p-2 rounded-lg border border-slate-200';
+        row.innerHTML = `
+                    <div class="col-span-6">
+                        <input type="text" value="${item.desc}" placeholder="Service / Part name"
+                            oninput="updateItem(${index}, 'desc', this.value)"
+                            class="w-full px-2 py-1 text-xs rounded border border-slate-300 bg-white focus:outline-none focus:border-sky-500">
+                    </div>
+                    <div class="col-span-2">
+                        <input type="number" value="${item.qty}" min="1"
+                            oninput="updateItem(${index}, 'qty', this.value)"
+                            class="w-full px-1.5 py-1 text-xs text-center rounded border border-slate-300 bg-white focus:outline-none focus:border-sky-500">
+                    </div>
+                    <div class="col-span-3">
+                        <input type="number" value="${item.rate}" min="0"
+                            oninput="updateItem(${index}, 'rate', this.value)"
+                            class="w-full px-2 py-1 text-xs text-right rounded border border-slate-300 bg-white focus:outline-none focus:border-sky-500">
+                    </div>
+                    <div class="col-span-1 flex justify-end">
+                        <button onclick="removeItem(${index})" class="text-rose-500 hover:bg-rose-100 p-1 rounded transition" title="Remove row">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </button>
+                    </div>
+                `;
+        container.appendChild(row);
+      });
+    }
+
+    function updateItem(index, field, value) {
+      if (field === 'qty' || field === 'rate') {
+        lineItems[index][field] = parseFloat(value) || 0;
+      } else {
+        lineItems[index][field] = value;
+      }
+      renderDocument();
+    }
+
+    function addPresetItem(desc, rate) {
+      lineItems.push({
+        id: Date.now(),
+        desc: desc,
+        qty: 1,
+        rate: rate
+      });
+      renderEditorItems();
+      renderDocument();
+    }
+
+    function addEmptyItem() {
+      lineItems.push({
+        id: Date.now(),
+        desc: '',
+        qty: 1,
+        rate: 0
+      });
+      renderEditorItems();
+      renderDocument();
+    }
+
+    function removeItem(index) {
+      if (lineItems.length <= 1) {
+        lineItems[0] = { id: Date.now(), desc: '', qty: 1, rate: 0 };
+      } else {
+        lineItems.splice(index, 1);
+      }
+      renderEditorItems();
+      renderDocument();
+    }
+
+    // Render the right-side A4 Preview Document
+    function renderDocument() {
+      const badge = document.getElementById('preview-doc-badge');
+      const subtext = document.getElementById('preview-doc-subtext');
+      const metaBox = document.getElementById('preview-meta-box');
+      const custBox = document.getElementById('preview-customer-box');
+      const tbody = document.getElementById('preview-table-body');
+      const totalsBox = document.getElementById('preview-totals-box');
+      const noteEl = document.getElementById('preview-note');
+
+      // 1. Handle BLANK BILLBOOK Mode
+      if (currentMode === 'BLANK') {
+        badge.textContent = 'INVOICE / QUOTATION MEMO';
+        badge.className = 'inline-block bg-slate-900 text-white text-sm sm:text-base font-extrabold px-4 py-1.5 rounded-lg uppercase tracking-wider';
+
+        metaBox.innerHTML = `
+                    <div class="text-xs font-bold text-slate-800">Serial No: <span class="inline-block w-28 border-b-2 border-dotted border-slate-700"></span></div>
+                    <div class="text-xs font-bold text-slate-800 pt-2">Date: <span class="inline-block w-28 border-b-2 border-dotted border-slate-700"></span></div>
+                `;
+
+        custBox.innerHTML = `
+                    <div class="grid grid-cols-12 gap-y-3 gap-x-4 text-xs font-bold text-slate-800">
+                        <div class="col-span-8 flex items-end gap-2">
+                            <span class="shrink-0 text-slate-900 font-bold">Customer Name:</span>
+                            <span class="handwrite-line"></span>
+                        </div>
+                        <div class="col-span-4 flex items-end gap-2">
+                            <span class="shrink-0 text-slate-900 font-bold">Phone:</span>
+                            <span class="handwrite-line"></span>
+                        </div>
+                        <div class="col-span-7 flex items-end gap-2">
+                            <span class="shrink-0 text-slate-900 font-bold">Address / Area:</span>
+                            <span class="handwrite-line"></span>
+                        </div>
+                        <div class="col-span-5 flex items-end gap-2">
+                            <span class="shrink-0 text-slate-900 font-bold">Model:</span>
+                            <span class="handwrite-line"></span>
+                        </div>
+                    </div>
+                `;
+
+        const rowCount = parseInt(document.getElementById('blank-rows-count').value) || 12;
+
+        // Dynamic row height so 8, 12, and 15 lines ALL fit cleanly on 1 single A4 page with safe margins
+        let rowClass = 'h-[32px]';
+        if (rowCount === 8) {
+          rowClass = 'h-[46px]'; // Generous writing space for 8 items (~46px)
+        } else if (rowCount === 12) {
+          rowClass = 'h-[32px]'; // Standard balanced rows for 12 items (~32px)
+        } else if (rowCount === 15) {
+          rowClass = 'h-[26px]'; // Compact for 15 items (~26px)
+        }
+
+        let rowsHtml = '';
+        for (let i = 1; i <= rowCount; i++) {
+          rowsHtml += `
+                        <tr class="${rowClass} border-b border-slate-300">
+                            <td class="px-3 text-center text-xs font-bold text-slate-800 border-r border-slate-300">${i}</td>
+                            <td class="px-4 border-r border-slate-300"></td>
+                            <td class="px-3 border-r border-slate-300"></td>
+                            <td class="px-3 border-r border-slate-300"></td>
+                            <td class="px-4"></td>
+                        </tr>
+                    `;
+        }
+        tbody.innerHTML = rowsHtml;
+
+        totalsBox.innerHTML = `
+                    <div class="flex justify-between items-center text-xs font-bold text-slate-700 py-1 border-b border-slate-300">
+                        <span>Subtotal:</span>
+                        <span class="inline-block w-24 border-b-2 border-dotted border-slate-600 h-4"></span>
+                    </div>
+                    <div class="flex justify-between items-center text-xs font-bold text-slate-700 py-1 border-b border-slate-300">
+                        <span>Discount / Advance:</span>
+                        <span class="inline-block w-24 border-b-2 border-dotted border-slate-600 h-4"></span>
+                    </div>
+                    <div class="flex justify-between items-center text-sm font-extrabold text-slate-900 pt-2">
+                        <span>TOTAL AMOUNT (Rs):</span>
+                        <span class="inline-block w-28 border-b-2 border-slate-900 h-5"></span>
+                    </div>
+                `;
+
+        noteEl.textContent = '15 Days service warranty.';
+        return;
+      }
+
+      // 2. Handle Digital INVOICE or QUOTATION Mode
+      const docNum = document.getElementById('doc-number').value || 'NK-001';
+      const docDate = document.getElementById('doc-date').value || '';
+      const docStatus = document.getElementById('doc-status').value;
+      const custName = document.getElementById('cust-name').value || 'Walk-in Customer';
+      const custPhone = document.getElementById('cust-phone').value || '-';
+      const custAddress = document.getElementById('cust-address').value || 'Karachi';
+      const custAc = document.getElementById('cust-ac').value || '-';
+      const discount = parseFloat(document.getElementById('doc-discount').value) || 0;
+      const note = document.getElementById('doc-note').value || '';
+
+      if (currentMode === 'INVOICE') {
+        badge.textContent = 'SERVICE INVOICE / FINAL BILL';
+        badge.className = 'inline-block bg-sky-600 text-white text-sm sm:text-base font-extrabold px-4 py-1.5 rounded-lg uppercase tracking-wider shadow-sm';
+      } else {
+        badge.textContent = 'ESTIMATE / QUOTATION';
+        badge.className = 'inline-block bg-amber-500 text-white text-sm sm:text-base font-extrabold px-4 py-1.5 rounded-lg uppercase tracking-wider shadow-sm';
+      }
+
+      // Status Pill Color
+      let statusBadgeClass = 'bg-emerald-100 text-emerald-800 border-emerald-300';
+      if (docStatus.includes('UNPAID')) statusBadgeClass = 'bg-rose-100 text-rose-800 border-rose-300';
+      if (docStatus.includes('PARTIAL') || docStatus.includes('VALID') || docStatus.includes('PENDING')) {
+        statusBadgeClass = 'bg-amber-100 text-amber-800 border-amber-300';
+      }
+
+      metaBox.innerHTML = `
+                <div class="text-xs text-slate-600 font-semibold">${currentMode === 'INVOICE' ? 'Invoice #' : 'Quote #'}: <span class="text-slate-900 font-extrabold text-sm">${docNum}</span></div>
+                <div class="text-xs text-slate-600 font-semibold">Date: <span class="text-slate-900 font-bold">${docDate}</span></div>
+                <div class="pt-1">
+                    <span class="inline-block text-[11px] font-extrabold px-2.5 py-0.5 rounded-full border ${statusBadgeClass}">${docStatus}</span>
+                </div>
+            `;
+
+      custBox.innerHTML = `
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                    <div>
+                        <span class="text-slate-500 font-bold uppercase text-[10px] block">Billed To Customer:</span>
+                        <p class="text-sm font-extrabold text-slate-900 mt-0.5">${custName}</p>
+                        <p class="text-slate-700 font-medium mt-0.5">📞 ${custPhone}</p>
+                    </div>
+                    <div class="sm:text-right">
+                        <span class="text-slate-500 font-bold uppercase text-[10px] block">Site Location & Unit:</span>
+                        <p class="text-slate-900 font-bold mt-0.5">📍 ${custAddress}</p>
+                        <p class="text-sky-700 font-semibold mt-0.5">Model: ${custAc}</p>
+                    </div>
+                </div>
+            `;
+
+      // Populate Table Items & Calculate Subtotal
+      let subtotal = 0;
+      let rowsHtml = '';
+      lineItems.forEach((item, idx) => {
+        const amount = (item.qty || 0) * (item.rate || 0);
+        subtotal += amount;
+        rowsHtml += `
+                    <tr class="hover:bg-slate-50/80 border-b border-slate-300">
+                        <td class="py-2.5 px-3 text-center font-bold text-slate-800 border-r border-slate-300">${idx + 1}</td>
+                        <td class="py-2.5 px-4 font-semibold text-slate-900 border-r border-slate-300">${item.desc || '<span class="text-slate-400 italic">No description</span>'}</td>
+                        <td class="py-2.5 px-3 text-center font-bold text-slate-800 border-r border-slate-300">${item.qty}</td>
+                        <td class="py-2.5 px-3 text-right font-semibold text-slate-800 border-r border-slate-300">${item.rate.toLocaleString()}</td>
+                        <td class="py-2.5 px-4 text-right font-extrabold text-slate-900">${amount.toLocaleString()}</td>
+                    </tr>
+                `;
+      });
+      tbody.innerHTML = rowsHtml;
+
+      const grandTotal = Math.max(0, subtotal - discount);
+
+      totalsBox.innerHTML = `
+                <div class="flex justify-between text-xs font-bold text-slate-700">
+                    <span>Subtotal:</span>
+                    <span>Rs. ${subtotal.toLocaleString()}</span>
+                </div>
+                ${discount > 0 ? `
+                <div class="flex justify-between text-xs font-bold text-emerald-700">
+                    <span>Discount:</span>
+                    <span>- Rs. ${discount.toLocaleString()}</span>
+                </div>` : ''}
+                <div class="border-t border-slate-300 pt-2 mt-2 flex justify-between items-baseline">
+                    <span class="text-xs font-extrabold uppercase text-slate-900">${currentMode === 'INVOICE' ? 'Total Payable:' : 'Estimated Total:'}</span>
+                    <span class="text-lg font-extrabold text-sky-700">Rs. ${grandTotal.toLocaleString()}</span>
+                </div>
+            `;
+
+      noteEl.textContent = note;
+    }
+
+    // Allows the technician to download this entire app as a standalone offline HTML file
+    function downloadOfflineApp() {
+      const htmlContent = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+      const blob = new Blob([htmlContent], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'Naveed_Khan_AC_Billing_App.html';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+  </script>
+
+</body>
+
+</html>
